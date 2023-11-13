@@ -18,7 +18,7 @@ namespace SHAME_2._0
     {
         public string faculty;
         public string speciality;
-        public int cource;
+        public string cource;
         public string group;
     }
     class Data // класс Данные 

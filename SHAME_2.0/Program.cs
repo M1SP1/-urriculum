@@ -12,9 +12,14 @@ namespace SHAME_2._0
             try
             {
                 Console.Write("Выберите действие: \n" +
-            "0. Выход из программы\n" +
-            "1. Ввод данных\n" +
-            "2. Изменение данных\n" +
+            "_________________________\n" +
+            "1. Добавить студента (ну или студентку)\n" +
+            "2. Посмотреть информацию\n" +
+            "-------------------------\n" +
+            "3. Сохранить файл\n" +
+            "4. Удалить студента\n" +
+            "5. Изменить\n" +
+            "-------------------------\n" +
             "Ваш Выбор: ");
                 _stateMenu = Convert.ToInt32(Console.ReadLine());
             }
@@ -35,24 +40,24 @@ namespace SHAME_2._0
             {
                 try 
                 {
+
                     switch (_stateMenu)
                     {
-                        case 0:
-                            // поле завершения работы программы, удалим массив данных
+                        case 0: // закрыть программу
+                            
                             Array.Clear(_data, 0, _data.Length);
                             break;
+                             
+                        case 1: // добавить данные
+                        {
+                            Console.Clear(); 
 
-                        case 1:
-                            Console.Clear(); // очистка консоли
-
-                            // выбираем способ ввода данных
-                            Console.Write("1. Ввести данные студента\n" +
+                            Console.Write("1. Добавить\n" +
                             "2. Открыть файл\n" +
-                            "3. Выйти в главное меню\n" +
                             "Ваш выбор: ");
                             _action = Convert.ToInt32(Console.ReadLine());
-
-                            Console.Clear(); // очистка консоли 
+                            
+                            Console.Clear();
 
                             if (_action == 1)
                             {
@@ -60,78 +65,79 @@ namespace SHAME_2._0
                             }
                             else if (_action == 2)
                             {
-                                DataReading(ref _data); //  Чтение данных из файла, где ref - ссылка на параметр 
+                                DataReading(ref _data); //  чтение данных из файла, где ref - ссылка на параметр
                             }
-                            else 
-                            {
-                                Console.Clear();
-                                Menu();
-                            }
+                            else
 
-                            Console.ReadLine(); // задержка консоли
-                            Console.Clear(); // очистка консоли 
+                            Console.WriteLine("Пункт меню выбран не верно!");
+                            Console.ReadLine();
+                            Console.Clear();
 
                             break;
+                        }
+                        
+                        case 2: // вывести данные в консоль
+                            Console.Clear();
 
-                        case 2:
-                            Console.Clear(); // очистка консоли
-
-                            // проверим, есть ли данные 
                             if (_data.Length > 0)
                             {
-                                // выбираем способ вывода данных
-                                Console.Write("1. Вывод данных на консоли\n" +
-                                "2. Изменение данных\n" +
-                                "3. Добавление данных\n" +
-                                "4. Удаление данных\n" +
-                                "5. Сохранение данных\n" +
-                                "6. Выйти в главное меню\n" +
-                                " Ваш выбор: ");
-                                _action = Convert.ToInt32(Console.ReadLine());
-                                Console.Clear();
-
-                                if (_action == 1) // очистка консоли 
-                                {
-                                    // вывод в консоль 
-                                    Print(_data);
-                                }
-                                else if (_action == 2)
-                                {
-                                    // запись в файл
-                                    DataChange(_data);
-                                }
-                                else if (_action == 3)
-                                {
-                                    // запись в файл
-                                    AddData(ref _data);
-                                }
-                                else if (_action == 4)
-                                {
-                                    // запись в файл
-                                    DeleteData(ref _data);
-                                }
-                                else if (_action == 5)
-                                {
-                                    SavingData(_data); // ref - ссылка на параметр 
-                                }
-                                else  
-                                {
-                                    Console.Clear();
-                                    Menu();
-                                }
+                                 
+                                Print(_data);
                             }
                             else
                                 Console.Write("Данные пусты!");
 
-                            Console.ReadLine(); // задержка консоли 
-                            Console.Clear(); // очистка консоли
-                                             // вызов меню Menu()
+                            Console.ReadLine();  
+                            Console.Clear(); 
+                            break;
+
+
+                        case 3: // сохранить данные (новый или уже открытый)
+                            Console.Clear();
+                            if (_data.Length > 0)
+                            {
+                                SavingData(_data);
+                            }
+                            else
+                                Console.Write("Данные пусты!");
+
+                            Console.ReadLine(); 
+                            Console.Clear(); 
+                                             
+                            break;
+
+                        case 4: //удалить данные
+                            Console.Clear();
+                            if (_data.Length > 0)
+                            {
+                                DeleteData(ref _data);
+                            }
+                            else
+                                Console.Write("Данные пусты!");
+
+                            Console.ReadLine();
+                            Console.Clear();
+
+                            break;
+
+                        case 5: // изменить данные
+                            Console.Clear();
+                            if (_data.Length > 0)
+                            {
+                                DataChange(_data);
+                            }
+                            else
+                                Console.Write("Данные пусты!");
+
+                            Console.ReadLine();
+                            Console.Clear();
+
                             break;
 
                         default:
                             Console.WriteLine("Пункт меню выбран не верно!");
-                            Console.ReadLine();
                             Console.Clear();
+                            
                             break;
                     }
 
@@ -139,9 +145,10 @@ namespace SHAME_2._0
                 }
                 catch
                 {
-                    Console.WriteLine("Пункт меню выбран не верно!");
+                    Console.WriteLine("Ай-ай-ай, не надо так!");
                     Console.ReadLine();
                     Console.Clear();
+                    Menu();
                 }
             }
         }
@@ -177,7 +184,7 @@ namespace SHAME_2._0
                 Console.Write("Введите название специальности: ");
                 curriculum.speciality = Console.ReadLine();
                 Console.Write("Введите номер курса: ");
-                curriculum.cource = Convert.ToInt32(Console.ReadLine());
+                curriculum.cource = Console.ReadLine();
                 Console.Write("Введите номер группы: ");
                 curriculum.group = Console.ReadLine();
 
@@ -212,7 +219,7 @@ namespace SHAME_2._0
                 Console.Write("Введите название специальности: ");
                 curriculum.speciality = Console.ReadLine();
                 Console.Write("Введите номер курса: ");
-                curriculum.cource = Convert.ToInt32(Console.ReadLine());
+                curriculum.cource = Console.ReadLine();
                 Console.Write("Введите номер группы: ");
                 curriculum.group = Console.ReadLine();
 
@@ -224,6 +231,7 @@ namespace SHAME_2._0
             }
             Console.Clear();
             Console.WriteLine("Данные добавлены!");
+            
         }
 
         // чтение данных из файла
@@ -288,8 +296,9 @@ namespace SHAME_2._0
 
                         curriculum.faculty = splitline[0];
                         curriculum.speciality = splitline[1];
-                        curriculum.cource = Convert.ToInt32(splitline[2]);
+                        curriculum.cource = splitline[2];
                         curriculum.group = splitline[3];
+
                         // добавляем данные 
                         _data[i].DataEntry(init, curriculum);
 
@@ -319,7 +328,7 @@ namespace SHAME_2._0
             {
                 Console.WriteLine("Данные №" + i++);
                 d.Print();
-                Console.WriteLine("________");
+                Console.WriteLine("________________________");
             }
         }
 
@@ -393,7 +402,7 @@ namespace SHAME_2._0
                 Console.Write("Введите название специальности: ");
                 curriculum.speciality = Console.ReadLine();
                 Console.Write("Введите номер курса: ");
-                curriculum.cource = Convert.ToInt32(Console.ReadLine());
+                curriculum.cource = Console.ReadLine();
                 Console.Write("Введите номер группы: ");
                 curriculum.group = Console.ReadLine();
 
