@@ -143,7 +143,7 @@ namespace SHAME_2._0
 
                     Menu(); // вывод меню
                 }
-                catch
+                catch 
                 {
                     Console.WriteLine("Ай-ай-ай, не надо так!");
                     Console.ReadLine();
@@ -170,6 +170,17 @@ namespace SHAME_2._0
                 _data = new Data[num_of_added + 1];
                 for (int i = 0; i < _data.Length; i++)
                     _data[i] = new Data();
+                string input = Console.ReadLine();
+                Console.Write("Введите фамилию: ");
+                if (String.IsNullOrEmpty(input))
+                {
+                    init.surname = Console.ReadLine();
+                }
+                else
+                {
+                    Console.WriteLine("Пустая строка запрещена.");
+                    return;
+                }
 
                 // вводим нужные данные 
                 Console.Write("Введите фамилию: ");
