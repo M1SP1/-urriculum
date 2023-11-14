@@ -170,23 +170,56 @@ namespace SHAME_2._0
                 _data = new Data[num_of_added + 1];
                 for (int i = 0; i < _data.Length; i++)
                     _data[i] = new Data();
-                
-                // вводим нужные данные 
-                Console.Write("Введите фамилию: ");
-                init.surname = Console.ReadLine();
-                Console.Write("Введите имя: ");
-                init.name = Console.ReadLine();
-                Console.Write("Отчетсво: ");
-                init.patronymic = Console.ReadLine();
 
-                Console.Write("Введите название факультета: ");
-                curriculum.faculty = Console.ReadLine();
-                Console.Write("Введите название специальности: ");
-                curriculum.speciality = Console.ReadLine();
-                Console.Write("Введите номер курса: ");
-                curriculum.cource = Console.ReadLine();
-                Console.Write("Введите номер группы: ");
-                curriculum.group = Console.ReadLine();
+                do
+                {
+                    Console.Write("Введите фамилию: ");
+                    init.surname = Console.ReadLine();
+                    Console.Clear();
+                } while (init.surname == "");
+
+                do
+                {
+                    Console.Write("Введите имя: ");
+                    init.name = Console.ReadLine();
+                    Console.Clear();
+                } while (init.name == ""); 
+
+                do
+                {
+                    Console.Write("Отчетсво: ");
+                    init.patronymic = Console.ReadLine();
+                    Console.Clear();
+                } while (init.patronymic == "");
+
+                do
+                {
+                    Console.Write("Введите название факультета: ");
+                    curriculum.faculty = Console.ReadLine();
+                    Console.Clear();
+                } while (curriculum.faculty == "");
+
+                do
+                {
+                    Console.Write("Введите название специальности: ");
+                    curriculum.speciality = Console.ReadLine();
+                    Console.Clear();
+                } while (curriculum.speciality == "");
+
+                do
+                {
+                    Console.Write("Введите номер курса: ");
+                    curriculum.cource = Console.ReadLine();
+                    Console.Clear();
+
+                } while (curriculum.cource == "");
+
+                do
+                {
+                    Console.Write("Введите номер группы: ");
+                    curriculum.group = Console.ReadLine();
+                    Console.Clear();
+                } while (curriculum.group == "");
 
                 _data[0].DataEntry(init, curriculum);
             }
@@ -207,21 +240,55 @@ namespace SHAME_2._0
                     _data[i] = buf_data[i];
 
                 // вводим данные, которые добавляем 
-                Console.Write("Введите фамилию: ");
-                init.surname = Console.ReadLine();
-                Console.Write("Введите имя: ");
-                init.name = Console.ReadLine();
-                Console.Write("Отчетсво: ");
-                init.patronymic = Console.ReadLine();
+                do
+                {
+                    Console.Write("Введите фамилию: ");
+                    init.surname = Console.ReadLine();
+                    Console.Clear();
+                } while (init.surname == "");
 
-                Console.Write("Введите название факультета: ");
-                curriculum.faculty = Console.ReadLine();
-                Console.Write("Введите название специальности: ");
-                curriculum.speciality = Console.ReadLine();
-                Console.Write("Введите номер курса: ");
-                curriculum.cource = Console.ReadLine();
-                Console.Write("Введите номер группы: ");
-                curriculum.group = Console.ReadLine();
+                do
+                {
+                    Console.Write("Введите имя: ");
+                    init.name = Console.ReadLine();
+                    Console.Clear();
+                } while (init.name == "");
+
+                do
+                {
+                    Console.Write("Отчетсво: ");
+                    init.patronymic = Console.ReadLine();
+                    Console.Clear();
+                } while (init.patronymic == "");
+
+                do
+                {
+                    Console.Write("Введите название факультета: ");
+                    curriculum.faculty = Console.ReadLine();
+                    Console.Clear();
+                } while (curriculum.faculty == "");
+
+                do
+                {
+                    Console.Write("Введите название специальности: ");
+                    curriculum.speciality = Console.ReadLine();
+                    Console.Clear();
+                } while (curriculum.speciality == "");
+
+                do
+                {
+                    Console.Write("Введите номер курса: ");
+                    curriculum.cource = Console.ReadLine();
+                    Console.Clear();
+
+                } while (curriculum.cource == "");
+
+                do
+                {
+                    Console.Write("Введите номер группы: ");
+                    curriculum.group = Console.ReadLine();
+                    Console.Clear();
+                } while (curriculum.group == "");
 
                 // добавляем данные в массив данных
                 _data[num_of_added].DataEntry(init, curriculum);
@@ -390,21 +457,55 @@ namespace SHAME_2._0
                 Сurriculum curriculum;
 
                 //вводим нужные данные 
-                Console.Write("Введите фамилию: ");
-                init.surname = Console.ReadLine();
-                Console.Write("Введите имя: ");
-                init.name = Console.ReadLine();
-                Console.Write("Отчетсво: ");
-                init.patronymic = Console.ReadLine();
+                do
+                {
+                    Console.Write("Введите фамилию: ");
+                    init.surname = Console.ReadLine();
+                    Console.Clear();
+                } while (init.surname == "");
 
-                Console.Write("Введите название факультета: ");
-                curriculum.faculty = Console.ReadLine();
-                Console.Write("Введите название специальности: ");
-                curriculum.speciality = Console.ReadLine();
-                Console.Write("Введите номер курса: ");
-                curriculum.cource = Console.ReadLine();
-                Console.Write("Введите номер группы: ");
-                curriculum.group = Console.ReadLine();
+                do
+                {
+                    Console.Write("Введите имя: ");
+                    init.name = Console.ReadLine();
+                    Console.Clear();
+                } while (init.name == "");
+
+                do
+                {
+                    Console.Write("Отчетсво: ");
+                    init.patronymic = Console.ReadLine();
+                    Console.Clear();
+                } while (init.patronymic == "");
+
+                do
+                {
+                    Console.Write("Введите название факультета: ");
+                    curriculum.faculty = Console.ReadLine();
+                    Console.Clear();
+                } while (curriculum.faculty == "");
+
+                do
+                {
+                    Console.Write("Введите название специальности: ");
+                    curriculum.speciality = Console.ReadLine();
+                    Console.Clear();
+                } while (curriculum.speciality == "");
+
+                do
+                {
+                    Console.Write("Введите номер курса: ");
+                    curriculum.cource = Console.ReadLine();
+                    Console.Clear();
+
+                } while (curriculum.cource == "");
+
+                do
+                {
+                    Console.Write("Введите номер группы: ");
+                    curriculum.group = Console.ReadLine();
+                    Console.Clear();
+                } while (curriculum.group == "");
 
                 // добавляем ланные в масив данных
                 _data[_n].DataEntry(init, curriculum);
