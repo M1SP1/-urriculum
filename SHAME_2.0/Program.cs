@@ -1,27 +1,28 @@
 ﻿using System;
+using System.Data;
 using System.IO;
-using System.Text;
+using System.Text.RegularExpressions;
 
-namespace SHAME_2._0
+namespace StudentDatabase
 {
     internal class Program
     {
-        static int _stateMenu;
-        static void Menu() // Меню 
+        static int stateMenu;
+        static void Menu()
         {
             try
             {
-                Console.Write("Выберите действие: \n" +
-            "_________________________\n" +
-            "1. Добавить студента (ну или студентку)\n" +
-            "2. Посмотреть информацию\n" +
-            "-------------------------\n" +
-            "3. Сохранить файл\n" +
-            "4. Удалить студента\n" +
-            "5. Изменить\n" +
-            "-------------------------\n" +
-            "Ваш Выбор: ");
-                _stateMenu = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Выберите действие: ");
+                Console.WriteLine("======================================");
+                Console.WriteLine("1. Добавить студента (ну или студентку");
+                Console.WriteLine("2. Посмотреть информацию");
+                Console.WriteLine("======================================");
+                Console.WriteLine("3. Сохранить файл");
+                Console.WriteLine("4. Удалить студента");
+                Console.WriteLine("5. Изменить");
+                Console.WriteLine("======================================");
+                Console.Write("Ваш Выбор: ");
+                stateMenu = Convert.ToInt32(Console.ReadLine());
             }
             catch
             {
@@ -33,56 +34,56 @@ namespace SHAME_2._0
         static void Main(string[] args)
         {
             Menu();
-            int _action;
-            Data[] _data = new Data[0]; // массив объектов класса данные  
+            int action;
+            Data[] data = new Data[0]; // массив объектов класса данные  
 
-            while (_stateMenu != 0)
+            while (stateMenu != 0)
             {
                 try 
                 {
 
-                    switch (_stateMenu)
+                    switch (stateMenu)
                     {
-                        case 0: // закрыть программу
+                        case 0:
                             
-                            Array.Clear(_data, 0, _data.Length);
+                            Array.Clear(data, 0, data.Length);
                             break;
                              
-                        case 1: // добавить данные
+                        case 1:
                         {
                             Console.Clear(); 
 
-                            Console.Write("1. Добавить\n" +
-                            "2. Открыть файл\n" +
-                            "Ваш выбор: ");
-                            _action = Convert.ToInt32(Console.ReadLine());
+                            Console.WriteLine("1. Добавить ");
+                            Console.WriteLine("2. Открыть файл");
+                            Console.Write("Ваш выбор: ");
+
+                            action = Convert.ToInt32(Console.ReadLine());
                             
                             Console.Clear();
 
-                            if (_action == 1)
+                            if (action == 1)
                             {
-                                AddData(ref _data); // Добавление данных, где ref - ссылка на параметр
+                                AddData(ref data);
                             }
-                            else if (_action == 2)
+                            else if (action == 2)
                             {
-                                DataReading(ref _data); //  чтение данных из файла, где ref - ссылка на параметр
+                                DataReading(ref data);
                             }
                             else
+                                Console.WriteLine("Пункт меню выбран не верно!");
 
-                            Console.WriteLine("Пункт меню выбран не верно!");
                             Console.ReadLine();
                             Console.Clear();
 
                             break;
                         }
                         
-                        case 2: // вывести данные в консоль
+                        case 2:
                             Console.Clear();
 
-                            if (_data.Length > 0)
+                            if (data.Length > 0)
                             {
-                                 
-                                Print(_data);
+                                Print(data);
                             }
                             else
                                 Console.Write("Данные пусты!");
@@ -91,12 +92,11 @@ namespace SHAME_2._0
                             Console.Clear(); 
                             break;
 
-
-                        case 3: // сохранить данные (новый или уже открытый)
+                        case 3:
                             Console.Clear();
-                            if (_data.Length > 0)
+                            if (data.Length > 0)
                             {
-                                SavingData(_data);
+                                SavingData(data);
                             }
                             else
                                 Console.Write("Данные пусты!");
@@ -106,11 +106,11 @@ namespace SHAME_2._0
                                              
                             break;
 
-                        case 4: //удалить данные
+                        case 4:
                             Console.Clear();
-                            if (_data.Length > 0)
+                            if (data.Length > 0)
                             {
-                                DeleteData(ref _data);
+                                DeleteData(ref data);
                             }
                             else
                                 Console.Write("Данные пусты!");
@@ -120,11 +120,11 @@ namespace SHAME_2._0
 
                             break;
 
-                        case 5: // изменить данные
+                        case 5:
                             Console.Clear();
-                            if (_data.Length > 0)
+                            if (data.Length > 0)
                             {
-                                DataChange(_data);
+                                DataChange(data);
                             }
                             else
                                 Console.Write("Данные пусты!");
@@ -141,11 +141,11 @@ namespace SHAME_2._0
                             break;
                     }
 
-                    Menu(); // вывод меню
+                    Menu(); 
                 }
                 catch 
                 {
-                    Console.WriteLine("Ай-ай-ай, не надо так!");
+                    Console.WriteLine("Что-то определённо пошло не так!");
                     Console.ReadLine();
                     Console.Clear();
                     Menu();
@@ -153,147 +153,178 @@ namespace SHAME_2._0
             }
         }
 
-        // добавление данных
-        static void AddData(ref Data[] _data)
+        static void AddData(ref Data[] data)
         {
-            //ref - ссылка
 
-            int num_of_added = _data.Length;
-
-            //временные перемиенные 
+            int numOfAdded = data.Length;
+ 
             Initials init;
             Сurriculum curriculum;
 
-            if (num_of_added == 0)
+            if (numOfAdded == 0)
             {
-                // если данных нет, выделяем новую память 
-                _data = new Data[num_of_added + 1];
-                for (int i = 0; i < _data.Length; i++)
-                    _data[i] = new Data();
+               
+                data = new Data[numOfAdded + 1];
+                for (int i = 0; i < data.Length; i++)
+                    data[i] = new Data();
 
                 do
                 {
-                    Console.Write("Введите фамилию: ");
+                    Console.Write("Фамилия: ");
                     init.surname = Console.ReadLine();
+                    Regex regex = new Regex(@"\s+");
+                    init.surname = regex.Replace(init.surname, string.Empty);
                     Console.Clear();
+
                 } while (init.surname == "");
 
                 do
                 {
-                    Console.Write("Введите имя: ");
+                    Console.Write("Имя: ");
                     init.name = Console.ReadLine();
+                    Regex regex = new Regex(@"\s+");
+                    init.name = regex.Replace(init.name, string.Empty);
                     Console.Clear();
+                   
                 } while (init.name == ""); 
 
                 do
                 {
                     Console.Write("Отчетсво: ");
                     init.patronymic = Console.ReadLine();
+                    Regex regex = new Regex(@"\s+");
+                    init.patronymic = regex.Replace(init.patronymic, string.Empty);
                     Console.Clear();
+
                 } while (init.patronymic == "");
 
                 do
                 {
-                    Console.Write("Введите название факультета: ");
+                    Console.Write("Название факультета: ");
                     curriculum.faculty = Console.ReadLine();
+                    Regex regex = new Regex(@"\s+");
+                    curriculum.faculty = regex.Replace(curriculum.faculty, string.Empty);
                     Console.Clear();
+
                 } while (curriculum.faculty == "");
 
                 do
                 {
-                    Console.Write("Введите название специальности: ");
+                    Console.Write("Название специальности: ");
                     curriculum.speciality = Console.ReadLine();
+                    Regex regex = new Regex(@"\s+");
+                    curriculum.speciality = regex.Replace(curriculum.speciality, string.Empty);
                     Console.Clear();
+
                 } while (curriculum.speciality == "");
 
                 do
                 {
-                    Console.Write("Введите номер курса: ");
-                    curriculum.cource = Console.ReadLine();
+                    Console.Write("Номер курса: ");
+                    curriculum.course = Console.ReadLine();
+                    Regex regex = new Regex(@"\s+");
+                    curriculum.course = regex.Replace(curriculum.course, string.Empty);
                     Console.Clear();
 
-                } while (curriculum.cource == "");
+                } while (curriculum.course == "");
 
                 do
                 {
-                    Console.Write("Введите номер группы: ");
+                    Console.Write("Номер группы: ");
                     curriculum.group = Console.ReadLine();
+                    Regex regex = new Regex(@"\s+");
+                    curriculum.group = regex.Replace(curriculum.group, string.Empty);
                     Console.Clear();
+
                 } while (curriculum.group == "");
 
-                _data[0].DataEntry(init, curriculum);
+                data[0].DataEntry(init, curriculum);
             }
             else
             {
                 // копируем массив данных с помощью метода Close()
                 // иначе, можно создать новый массив к каждому элементу нового присвоить значение старого массива в цикле 
-                // for(......) buf_data [i] = data[i];
-                Data[] buf_data = (Data[])_data.Clone();
+                Data[] buf_data = (Data[])data.Clone();
 
-                // выделяем новую память под текущий массив данных
-                _data = new Data[num_of_added + 1]; // после этого, все данные тут потеряются
-                for (int i = 0; i < _data.Length; i++)
-                    _data[i] = new Data();
+                data = new Data[numOfAdded + 1];
+                for (int i = 0; i < data.Length; i++)
+                    data[i] = new Data();
 
-                // копируем данные из временного массива в текущий обратно 
                 for (int i = 0; i < buf_data.Length; i++)
-                    _data[i] = buf_data[i];
-
-                // вводим данные, которые добавляем 
+                    data[i] = buf_data[i];
+ 
                 do
                 {
-                    Console.Write("Введите фамилию: ");
+                    Console.Write("Фамилия: ");
                     init.surname = Console.ReadLine();
+                    Regex regex = new Regex(@"\s+");
+                    init.surname = regex.Replace(init.surname, string.Empty);
                     Console.Clear();
+
                 } while (init.surname == "");
 
                 do
                 {
-                    Console.Write("Введите имя: ");
+                    Console.Write("Имя: ");
                     init.name = Console.ReadLine();
+                    Regex regex = new Regex(@"\s+");
+                    init.name = regex.Replace(init.name, string.Empty);
                     Console.Clear();
+
                 } while (init.name == "");
 
                 do
                 {
                     Console.Write("Отчетсво: ");
                     init.patronymic = Console.ReadLine();
+                    Regex regex = new Regex(@"\s+");
+                    init.patronymic = regex.Replace(init.patronymic, string.Empty);
                     Console.Clear();
-                } while (init.patronymic == "");
+
+                } while (init.patronymic == ""); 
 
                 do
                 {
-                    Console.Write("Введите название факультета: ");
+                    Console.Write("Название факультета: ");
                     curriculum.faculty = Console.ReadLine();
+                    Regex regex = new Regex(@"\s+");
+                    curriculum.faculty = regex.Replace(curriculum.faculty, string.Empty);
                     Console.Clear();
+
                 } while (curriculum.faculty == "");
 
                 do
                 {
-                    Console.Write("Введите название специальности: ");
+                    Console.Write("Название специальности: ");
                     curriculum.speciality = Console.ReadLine();
+                    Regex regex = new Regex(@"\s+");
+                    curriculum.speciality = regex.Replace(curriculum.speciality, string.Empty);
                     Console.Clear();
+
                 } while (curriculum.speciality == "");
 
                 do
                 {
-                    Console.Write("Введите номер курса: ");
-                    curriculum.cource = Console.ReadLine();
+                    Console.Write("Номер курса: ");
+                    curriculum.course = Console.ReadLine();
+                    Regex regex = new Regex(@"\s+");
+                    curriculum.course = regex.Replace(curriculum.course, string.Empty);
                     Console.Clear();
 
-                } while (curriculum.cource == "");
+                } while (curriculum.course == "");
 
                 do
                 {
-                    Console.Write("Введите номер группы: ");
+                    Console.Write("Номер группы: ");
                     curriculum.group = Console.ReadLine();
+                    Regex regex = new Regex(@"\s+");
+                    curriculum.group = regex.Replace(curriculum.group, string.Empty);
                     Console.Clear();
+
                 } while (curriculum.group == "");
 
-                // добавляем данные в массив данных
-                _data[num_of_added].DataEntry(init, curriculum);
+                data[numOfAdded].DataEntry(init, curriculum);
 
-                //удаляем временный масив 
                 Array.Clear(buf_data, 0, buf_data.Length);
             }
             Console.Clear();
@@ -301,8 +332,7 @@ namespace SHAME_2._0
             
         }
 
-        // чтение данных из файла
-        static void DataReading(ref Data[] _data)
+        static void DataReading(ref Data[] data)
         {
             string fileName;
             Console.Write("Введите название файла: ");
@@ -310,99 +340,85 @@ namespace SHAME_2._0
 
             Console.Clear();
 
-            // для чтания данных из потока используется класс StreamReader
             StreamReader reading = new StreamReader(fileName);
             try
-            {
-                // некоторый код, котоырй выполнится, если файл удалось открыть без ошибок 
-
-                int num_of_data = Convert.ToInt32(reading.ReadLine());
-                int i = 0, // индекс элемента массива данных
-                num_of_lines = 0; //номер строки, чтобы понять какую строку данных считываем
-
-                // выделяем память 
-                _data = new Data[num_of_data];
-                for (; i < _data.Length; i++)
-                    _data[i] = new Data();
+            { 
+                int numOfData = Convert.ToInt32(reading.ReadLine());
+                int i = 0,
+                numOfLine = 0;
+ 
+                data = new Data[numOfData];
+                for (; i < data.Length; i++)
+                    data[i] = new Data();
                 i = 0;
-
-                // временные переменные 
+ 
                 Initials init;
                 Сurriculum curriculum;
 
-                init.name = ""; init.surname = ""; init.patronymic = "";
+                init.name = ""; 
+                init.surname = ""; 
+                init.patronymic = "";
 
-
-                // считываем пока есть, что считать
                 while (!reading.EndOfStream)
                 {
-                    if (num_of_lines == 0)
+                    if (numOfLine == 0)
                     {
-                        // считываем и запоминаем строку
                         init.surname = reading.ReadLine();
-                        num_of_lines++; // номер строки 
+                        numOfLine++;
                     }
-                    else if (num_of_lines == 1)
+                    else if (numOfLine == 1)
                     {
-                        // считываем и запоминаем строку
                         init.name = reading.ReadLine();
-                        num_of_lines++;
+                        numOfLine++;
                     }
-                    else if (num_of_lines == 2)
+                    else if (numOfLine == 2)
                     {
-                        // считываем и запоминаем строку 
                         init.patronymic = reading.ReadLine();
-                        num_of_lines++;
+                        numOfLine++;
                     }
 
-                    else if (num_of_lines == 3)
+                    else if (numOfLine == 3)
                     {
-                        //  считываем строку и находим местро розрыва ' ' в строке и запоминаем данные 
+
                         string line = reading.ReadLine();
                         string[] splitline = line.Split(' ');
 
                         curriculum.faculty = splitline[0];
                         curriculum.speciality = splitline[1];
-                        curriculum.cource = splitline[2];
+                        curriculum.course = splitline[2];
                         curriculum.group = splitline[3];
 
-                        // добавляем данные 
-                        _data[i].DataEntry(init, curriculum);
+                        data[i].DataEntry(init, curriculum);
 
-                        i++; // увеличивыем индекс элемента 
-                        num_of_lines = 0; // обнуляем номер строки
+                        i++;
                     }
                 }
-                Console.WriteLine($"Данных: {_data.Length} считано из файла: {fileName}");
+                Console.WriteLine($"Данных: {data.Length} считано из файла: {fileName}");
             }
             catch
             {
-                // код, который нужно выполнить если случилась ошибка в блоке try 
-
                 Console.WriteLine($"Ошибка при работе с файлом: {fileName} !");
             }
             finally
             {
-                // код, который должен выполниться независимо от того, случилась ли ошибка
-                reading.Close(); // закрываем файл
+                Array.Resize(ref data, data.Length - 1);
+                reading.Close();
             }
         }
-        //вывод в консоль 
-        static void Print(Data[] _data)
+ 
+        static void Print(Data[] data)
         {
             int i = 1;
-            foreach (Data d in _data)
+            foreach (Data d in data)
             {
                 Console.WriteLine("Данные №" + i++);
                 d.Print();
-                Console.WriteLine("________________________");
+                Console.WriteLine("====================================");
             }
         }
 
-        // запись в файл 
-        static void SavingData(Data[] _data)
+        static void SavingData(Data[] data)
         {
-            // название нужного файла 
             string fileName;
 
             Console.Write("Введите название файла: ");
@@ -410,29 +426,26 @@ namespace SHAME_2._0
 
             Console.Clear();
 
-            // для записи данных в поток используется класс StreamWriter
             StreamWriter record = new StreamWriter(fileName, false);
             try
             {
-                // фрагмент кода, который будет работать в случае успешного открытия 
+                record.WriteLine(data.Length);
 
-                // записываем данные в файл
-                record.WriteLine(_data.Length);
-
-                foreach (Data d in _data)
+                foreach (Data d in data)
                 {
                     record.WriteLine(d.GetInitials().surname);
                     record.WriteLine(d.GetInitials().name);
                     record.WriteLine(d.GetInitials().patronymic);
-
-                    record.WriteLine(d.GetCurriculum().faculty + " " + d.GetCurriculum().speciality + " " + d.GetCurriculum().cource + " " + d.GetCurriculum().group);
+                    record.WriteLine(d.GetCurriculum().faculty);
+                    record.WriteLine(d.GetCurriculum().speciality);
+                    record.WriteLine(d.GetCurriculum().course);
+                    record.WriteLine(d.GetCurriculum().group);
                 }
-
-                Console.WriteLine($"Данных: {_data.Length} записанно в файл: {fileName}");
+                Console.WriteLine($"Данных: {data.Length} записанно в файл: {fileName}");
             }
             catch
             {
-                Console.WriteLine($"Ошибка при работе с файлом:{fileName} !");
+                Console.WriteLine($"Ошибка при работе с файлом: {fileName} !");
             }
             finally
             {
@@ -440,125 +453,130 @@ namespace SHAME_2._0
             }
         }
 
-        // извлечение данных
-        static void DataChange(Data[] _data)
+        static void DataChange(Data[] data)
         {
-            Console.WriteLine($"Введите необходимый элемент (от 1 до {_data.Length}): ");
-            int _n = Convert.ToInt32(Console.ReadLine());
-            _n--; // так как вводим от 1
+            Console.WriteLine($"Введите необходимый элемент (от 1 до {data.Length}): ");
+            int n = Convert.ToInt32(Console.ReadLine());
+            n--; 
 
             Console.Clear();
 
-            //проверяем правильность ввода
-            if (_n >= 0 && _n < _data.Length)
+            if (n >= 0 && n < data.Length)
             {
-                // временные переменные
                 Initials init;
                 Сurriculum curriculum;
-
-                //вводим нужные данные 
+ 
                 do
                 {
-                    Console.Write("Введите фамилию: ");
+                    Console.Write("Фамилия: ");
                     init.surname = Console.ReadLine();
+                    Regex regex = new Regex(@"\s+");
+                    init.surname = regex.Replace(init.surname, string.Empty);
                     Console.Clear();
+
                 } while (init.surname == "");
 
                 do
                 {
-                    Console.Write("Введите имя: ");
+                    Console.Write("Имя: ");
                     init.name = Console.ReadLine();
+                    Regex regex = new Regex(@"\s+");
+                    init.name = regex.Replace(init.name, string.Empty);
                     Console.Clear();
+
                 } while (init.name == "");
 
                 do
                 {
                     Console.Write("Отчетсво: ");
                     init.patronymic = Console.ReadLine();
+                    Regex regex = new Regex(@"\s+");
+                    init.patronymic = regex.Replace(init.patronymic, string.Empty);
                     Console.Clear();
+
                 } while (init.patronymic == "");
 
                 do
                 {
-                    Console.Write("Введите название факультета: ");
+                    Console.Write("Название факультета: ");
                     curriculum.faculty = Console.ReadLine();
+                    Regex regex = new Regex(@"\s+");
+                    curriculum.faculty = regex.Replace(curriculum.faculty, string.Empty);
                     Console.Clear();
+
                 } while (curriculum.faculty == "");
 
                 do
                 {
-                    Console.Write("Введите название специальности: ");
+                    Console.Write("Название специальности: ");
                     curriculum.speciality = Console.ReadLine();
+                    Regex regex = new Regex(@"\s+");
+                    curriculum.speciality = regex.Replace(curriculum.speciality, string.Empty);
                     Console.Clear();
+
                 } while (curriculum.speciality == "");
 
                 do
                 {
-                    Console.Write("Введите номер курса: ");
-                    curriculum.cource = Console.ReadLine();
+                    Console.Write("Номер курса: ");
+                    curriculum.course = Console.ReadLine();
+                    Regex regex = new Regex(@"\s+");
+                    curriculum.course = regex.Replace(curriculum.course, string.Empty);
                     Console.Clear();
 
-                } while (curriculum.cource == "");
+                } while (curriculum.course == "");
 
                 do
                 {
-                    Console.Write("Введите номер группы: ");
+                    Console.Write("Номер группы: ");
                     curriculum.group = Console.ReadLine();
+                    Regex regex = new Regex(@"\s+");
+                    curriculum.group = regex.Replace(curriculum.group, string.Empty);
                     Console.Clear();
+
                 } while (curriculum.group == "");
 
-                // добавляем ланные в масив данных
-                _data[_n].DataEntry(init, curriculum);
+                data[n].DataEntry(init, curriculum);
 
                 Console.Clear();
-                Console.WriteLine($"Данные элемента: {_n + 1} изменены!");
+                Console.WriteLine($"Данные элемента: {n + 1} изменены!");
             }
             else
                 Console.WriteLine("Номер введен не верно!");
         }
 
-        // удаление данных
-        static void DeleteData(ref Data[] _data)
+        static void DeleteData(ref Data[] data)
         {
-            Console.WriteLine($"Введите необхъодимый элемент (от 1 до {_data.Length}): ");
-            int _n = Convert.ToInt32(Console.ReadLine());
-            _n--; // так как водим от 1 
+            Console.WriteLine($"Введите необхъодимый элемент (от 1 до {data.Length}): ");
+            int n = Convert.ToInt32(Console.ReadLine());
+            n--;
 
             Console.Clear();
-
-            // проверяем правильность ввоа 
-            if (_n >= 0 && _n < _data.Length)
+ 
+            if (n >= 0 && n < data.Length)
             {
-                // копируем массив данных с помощью метода Close()
-                // иначе можно создать новый массив и каждому элементу нового присвоить значение старого массива в цикле
-                // for(....) buf_data[i] = _data[i];
-                Data[] buf_data = (Data[])_data.Clone();
+                Data[] buf_data = (Data[])data.Clone();
 
-                // выделяем новую память для текущего массива 
-                int new_size = _data.Length - 1;
-                _data = new Data[new_size]; // после этого, данные в массиве сотрутся 
-
-                // считываем данные из временного массива в основной кроме удаяемого 
+                int new_size = data.Length - 1;
+                data = new Data[new_size]; 
+ 
                 int d = 0;
                 for (int i = 0; i < buf_data.Length; i++)
                 {
-                    if (i != _n)
+                    if (i != n)
                     {
-                        _data[d] = buf_data[i];
+                        data[d] = buf_data[i];
                         d++;
                     }
                 }
 
                 Console.Clear();
-                Console.WriteLine($"Данные №{_n + 1} удалены!");
+                Console.WriteLine($"Данные №{n + 1} удалены!");
 
-                // удаляем временный массив
                 Array.Clear(buf_data, 0, buf_data.Length);
             }
             else
                 Console.WriteLine("Номер введен не верно!");
         }
-
-
     }
 }

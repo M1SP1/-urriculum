@@ -1,0 +1,7 @@
+C:\Users\takke\source\repos\SHAME_2.0\SHAME_2.0\bin\Debug\SHAME_2.0.exe.config
+C:\Users\takke\source\repos\SHAME_2.0\SHAME_2.0\bin\Debug\SHAME_2.0.exe
+C:\Users\takke\source\repos\SHAME_2.0\SHAME_2.0\bin\Debug\SHAME_2.0.pdb
+C:\Users\takke\source\repos\SHAME_2.0\SHAME_2.0\obj\Debug\StudentDatabase.csproj.AssemblyReference.cache
+C:\Users\takke\source\repos\SHAME_2.0\SHAME_2.0\obj\Debug\StudentDatabase.csproj.CoreCompileInputs.cache
+C:\Users\takke\source\repos\SHAME_2.0\SHAME_2.0\obj\Debug\SHAME_2.0.exe
+C:\Users\takke\source\repos\SHAME_2.0\SHAME_2.0\obj\Debug\SHAME_2.0.pdb
