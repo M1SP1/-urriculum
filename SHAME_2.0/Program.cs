@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json;
 using System.Data;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -39,45 +40,45 @@ namespace StudentDatabase
 
             while (stateMenu != 0)
             {
-                try 
+                try
                 {
 
                     switch (stateMenu)
                     {
                         case 0:
-                            
+
                             Array.Clear(data, 0, data.Length);
                             break;
-                             
+
                         case 1:
-                        {
-                            Console.Clear(); 
-
-                            Console.WriteLine("1. Добавить ");
-                            Console.WriteLine("2. Открыть файл");
-                            Console.Write("Ваш выбор: ");
-
-                            action = Convert.ToInt32(Console.ReadLine());
-                            
-                            Console.Clear();
-
-                            if (action == 1)
                             {
-                                AddData(ref data);
-                            }
-                            else if (action == 2)
-                            {
-                                DataReading(ref data);
-                            }
-                            else
-                                Console.WriteLine("Пункт меню выбран не верно!");
+                                Console.Clear();
 
-                            Console.ReadLine();
-                            Console.Clear();
+                                Console.WriteLine("1. Добавить ");
+                                Console.WriteLine("2. Открыть файл");
+                                Console.Write("Ваш выбор: ");
 
-                            break;
-                        }
-                        
+                                action = Convert.ToInt32(Console.ReadLine());
+
+                                Console.Clear();
+
+                                if (action == 1)
+                                {
+                                    AddData(ref data);
+                                }
+                                else if (action == 2)
+                                {
+                                    DataReading(ref data);
+                                }
+                                else
+                                    Console.WriteLine("Пункт меню выбран не верно!");
+
+                                Console.ReadLine();
+                                Console.Clear();
+
+                                break;
+                            }
+
                         case 2:
                             Console.Clear();
 
@@ -88,8 +89,8 @@ namespace StudentDatabase
                             else
                                 Console.Write("Данные пусты!");
 
-                            Console.ReadLine();  
-                            Console.Clear(); 
+                            Console.ReadLine();
+                            Console.Clear();
                             break;
 
                         case 3:
@@ -101,9 +102,9 @@ namespace StudentDatabase
                             else
                                 Console.Write("Данные пусты!");
 
-                            Console.ReadLine(); 
-                            Console.Clear(); 
-                                             
+                            Console.ReadLine();
+                            Console.Clear();
+
                             break;
 
                         case 4:
@@ -137,13 +138,13 @@ namespace StudentDatabase
                         default:
                             Console.WriteLine("Пункт меню выбран не верно!");
                             Console.Clear();
-                            
+
                             break;
                     }
 
-                    Menu(); 
+                    Menu();
                 }
-                catch 
+                catch
                 {
                     Console.WriteLine("Что-то определённо пошло не так!");
                     Console.ReadLine();
@@ -152,21 +153,52 @@ namespace StudentDatabase
                 }
             }
         }
+        static string InputNoSpaces(string message)
+        {
+            string res;
+            do
+            {
+                Console.Write(message);
+                res = Console.ReadLine();
+                Regex regex = new Regex(@"\s+");
+                res = regex.Replace(res, string.Empty);
+                Console.Clear();
 
+            } while (res == "");
+            return res;
+        }
         static void AddData(ref Data[] data)
         {
 
             int numOfAdded = data.Length;
- 
+
             Initials init;
             Сurriculum curriculum;
 
+
+            Data[] buf_data = new Data[numOfAdded + 1];
+            for (int i = 0; i < data.Length; i++)
+                buf_data[i] = data[i];      //копируем ссылки на объекты из исходного массива
+            data = buf_data;        //и запоминаем ссылуку на расширенный массив
+            data[numOfAdded] = new Data();
+            init.surname = InputNoSpaces("Фамилия: ");
+            init.name = InputNoSpaces("Имя: ");
+            init.patronymic = InputNoSpaces("Отчество: ");
+            curriculum.faculty = InputNoSpaces("Название факультета: ");
+            curriculum.speciality = InputNoSpaces("Название специальности: ");
+            curriculum.course = InputNoSpaces("Номер курса: ");
+            curriculum.group = InputNoSpaces("Номер группы: ");
+            data[numOfAdded].DataEntry(init, curriculum);
+
+/*
+
             if (numOfAdded == 0)
             {
-               
+
                 data = new Data[numOfAdded + 1];
                 for (int i = 0; i < data.Length; i++)
                     data[i] = new Data();
+
 
                 do
                 {
@@ -178,6 +210,7 @@ namespace StudentDatabase
 
                 } while (init.surname == "");
 
+
                 do
                 {
                     Console.Write("Имя: ");
@@ -185,8 +218,8 @@ namespace StudentDatabase
                     Regex regex = new Regex(@"\s+");
                     init.name = regex.Replace(init.name, string.Empty);
                     Console.Clear();
-                   
-                } while (init.name == ""); 
+
+                } while (init.name == "");
 
                 do
                 {
@@ -252,7 +285,7 @@ namespace StudentDatabase
 
                 for (int i = 0; i < buf_data.Length; i++)
                     data[i] = buf_data[i];
- 
+
                 do
                 {
                     Console.Write("Фамилия: ");
@@ -281,7 +314,7 @@ namespace StudentDatabase
                     init.patronymic = regex.Replace(init.patronymic, string.Empty);
                     Console.Clear();
 
-                } while (init.patronymic == ""); 
+                } while (init.patronymic == "");
 
                 do
                 {
@@ -327,9 +360,10 @@ namespace StudentDatabase
 
                 Array.Clear(buf_data, 0, buf_data.Length);
             }
+*/
             Console.Clear();
             Console.WriteLine("Данные добавлены!");
-            
+
         }
 
         static void DataReading(ref Data[] data)
@@ -340,23 +374,28 @@ namespace StudentDatabase
 
             Console.Clear();
 
-            StreamReader reading = new StreamReader(fileName);
             try
-            { 
+            {
+                StreamReader reading = new StreamReader(fileName);  //открытие лучше делать под try, банально введенного файла может не существовать
+                string json = reading.ReadToEnd();                  
+                data = JsonSerializer.Deserialize<Data[]>(json);    //десериализация прочитанных данных
+                reading.Close();
+
+                /*
                 int numOfData = Convert.ToInt32(reading.ReadLine());
                 int i = 0,
                 numOfLine = 0;
- 
+
                 data = new Data[numOfData];
                 for (; i < data.Length; i++)
                     data[i] = new Data();
                 i = 0;
- 
+
                 Initials init;
                 Сurriculum curriculum;
 
-                init.name = ""; 
-                init.surname = ""; 
+                init.name = "";
+                init.surname = "";
                 init.patronymic = "";
 
                 while (!reading.EndOfStream)
@@ -393,19 +432,20 @@ namespace StudentDatabase
                         i++;
                     }
                 }
+                */
                 Console.WriteLine($"Данных: {data.Length} считано из файла: {fileName}");
             }
             catch
             {
                 Console.WriteLine($"Ошибка при работе с файлом: {fileName} !");
             }
-            finally
+/*            finally
             {
                 Array.Resize(ref data, data.Length - 1);
-                reading.Close();
             }
+*/
         }
- 
+
         static void Print(Data[] data)
         {
             int i = 1;
@@ -425,31 +465,33 @@ namespace StudentDatabase
             fileName = Console.ReadLine();
 
             Console.Clear();
-
-            StreamWriter record = new StreamWriter(fileName, false);
             try
             {
-                record.WriteLine(data.Length);
+                StreamWriter record = new StreamWriter(fileName, false);        //лучше создние файла тоже в try взять
+                string jsonString = JsonSerializer.Serialize(data);
+                record.Write(jsonString);
 
-                foreach (Data d in data)
-                {
-                    record.WriteLine(d.GetInitials().surname);
-                    record.WriteLine(d.GetInitials().name);
-                    record.WriteLine(d.GetInitials().patronymic);
-                    record.WriteLine(d.GetCurriculum().faculty);
-                    record.WriteLine(d.GetCurriculum().speciality);
-                    record.WriteLine(d.GetCurriculum().course);
-                    record.WriteLine(d.GetCurriculum().group);
-                }
+
+                /*                record.WriteLine(data.Length);
+
+                                foreach (Data d in data)
+                                {
+                                    record.WriteLine(d.GetInitials().surname);
+                                    record.WriteLine(d.GetInitials().name);
+                                    record.WriteLine(d.GetInitials().patronymic);
+                                    record.WriteLine(d.GetCurriculum().faculty);
+                                    record.WriteLine(d.GetCurriculum().speciality);
+                                    record.WriteLine(d.GetCurriculum().course);
+                                    record.WriteLine(d.GetCurriculum().group);
+                                }
+                */
+                record.Close();
+
                 Console.WriteLine($"Данных: {data.Length} записанно в файл: {fileName}");
             }
             catch
             {
                 Console.WriteLine($"Ошибка при работе с файлом: {fileName} !");
-            }
-            finally
-            {
-                record.Close();
             }
         }
 
@@ -457,7 +499,7 @@ namespace StudentDatabase
         {
             Console.WriteLine($"Введите необходимый элемент (от 1 до {data.Length}): ");
             int n = Convert.ToInt32(Console.ReadLine());
-            n--; 
+            n--;
 
             Console.Clear();
 
@@ -465,7 +507,7 @@ namespace StudentDatabase
             {
                 Initials init;
                 Сurriculum curriculum;
- 
+
                 do
                 {
                     Console.Write("Фамилия: ");
@@ -552,14 +594,14 @@ namespace StudentDatabase
             n--;
 
             Console.Clear();
- 
+
             if (n >= 0 && n < data.Length)
             {
                 Data[] buf_data = (Data[])data.Clone();
 
                 int new_size = data.Length - 1;
-                data = new Data[new_size]; 
- 
+                data = new Data[new_size];
+
                 int d = 0;
                 for (int i = 0; i < buf_data.Length; i++)
                 {

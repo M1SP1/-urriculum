@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace StudentDatabase
@@ -9,22 +9,30 @@ namespace StudentDatabase
 
     struct Initials
     {
+        [JsonInclude]
         public string surname;
+        [JsonInclude]
         public string name;
+        [JsonInclude]
         public string patronymic;
     }
 
     struct Сurriculum
     {
+        [JsonInclude]
         public string faculty;
+        [JsonInclude]
         public string speciality;
+        [JsonInclude]
         public string course;
+        [JsonInclude]
         public string group;
     }
     class Data
     {
-        
+        [JsonInclude]
         private Initials init;
+        [JsonInclude]
         private Сurriculum curriculum;
 
         public Data() { }
