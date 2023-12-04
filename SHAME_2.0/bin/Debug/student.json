@@ -1,0 +1,41 @@
+[
+  {
+    "init": {
+      "surname": "Куликова",
+      "name": "Дарья",
+      "patronymic": "Сергеевна"
+    },
+    "curriculum": {
+      "faculty": "ЦР",
+      "speciality": "ИБ",
+      "course": "второй",
+      "group": "3"
+    }
+  },
+  {
+    "init": {
+      "surname": "Маслов",
+      "name": "Андрей",
+      "patronymic": "Викторович"
+    },
+    "curriculum": {
+      "faculty": "ЦР",
+      "speciality": "ИБ",
+      "course": "первый",
+      "group": "23"
+    }
+  },
+  {
+    "init": {
+      "surname": "Дымковский",
+      "name": "Дмитрий",
+      "patronymic": "Валерьевич"
+    },
+    "curriculum": {
+      "faculty": "ЦР",
+      "speciality": "ЭЛ",
+      "course": "четвертый",
+      "group": "2"
+    }
+  }
+]
